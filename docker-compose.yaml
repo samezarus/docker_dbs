@@ -1,0 +1,44 @@
+version: "3"
+
+volumes:
+    mongodb_data:
+    mariadb_data:
+    postgres_db:
+
+services:
+    # https://hub.docker.com/_/mongo
+    mongodb_server:
+        image: mongo
+        restart: always
+        ports:
+            - 27017:27017
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+        volumes:
+            - mongodb_data:/data/db
+    
+    # https://hub.docker.com/_/mariadb
+    mariadb_server:
+        image: mariadb
+        restart: always
+        ports:
+            - 3306:3306
+        environment:
+            MARIADB_ROOT_PASSWORD: example
+        volumes:
+            - mariadb_data:/var/lib/mysql
+    
+    # https://hub.docker.com/_/postgres
+    postgres_server:
+        image: postgres
+        restart: always
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_PASSWORD: test
+            POSTGRES_USER: test 
+            POSTGRES_DB: test
+        volumes:
+            #- postgres_db:/usr/local/pgsql/data
+            - postgres_db:/var/lib/postgresql/data
